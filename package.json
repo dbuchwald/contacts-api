@@ -10,7 +10,8 @@
     "db_create": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:create",
     "db_drop": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:drop",
     "migrate": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up",
-    "install-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up:test"
+    "install-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up:test",
+    "remove-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate down:test"
   },
   "keywords": [
     "contacts",
