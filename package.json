@@ -6,12 +6,13 @@
   "main": "app.js",
   "scripts": {
     "lint": "node_modules/.bin/eslint",
-    "test": "node_modules/.bin/mocha",
+    "test": "node_modules/.bin/mocha lib/test/suite.test.js",
     "db_create": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:create",
     "db_drop": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:drop",
     "migrate": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up",
     "install-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up:test",
-    "remove-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate down:test"
+    "remove-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate down:test",
+    "start": "node -r dotenv/config bin/www"
   },
   "keywords": [
     "contacts",
@@ -23,6 +24,7 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cucumber": "^5.1.0",
     "eslint": "^6.3.0",
     "eslint-plugin-mocha": "^6.1.0",
@@ -31,6 +33,11 @@
   "dependencies": {
     "db-migrate": "^0.11.6",
     "db-migrate-mysql": "^1.1.10",
-    "dotenv": "^8.1.0"
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "mysql": "^2.17.1",
+    "redis": "^2.8.0",
+    "uid-safe": "^2.1.5"
   }
 }
