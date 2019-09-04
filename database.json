@@ -1,0 +1,13 @@
+{
+  "defaultEnv": "dev",
+  "dev": {
+    "driver": "mysql",
+    "user": {"ENV": "CONTACTS_API_DB_USER"},
+    "password": {"ENV": "CONTACTS_API_DB_PASSWORD"},
+    "host": {"ENV": "CONTACTS_API_DB_HOST"},
+    "port": {"ENV": "CONTACTS_API_DB_PORT"},
+    "database": {"ENV": "CONTACTS_API_DB_DATABASE"},
+    "multipleStatements": true
+  },
+  "sql-file": true
+}

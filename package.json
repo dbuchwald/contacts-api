@@ -1,0 +1,35 @@
+{
+  "name": "contacts-api",
+  "version": "0.0.1",
+  "description": "Contacts Management API",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "lint": "node_modules/.bin/eslint",
+    "test": "node_modules/.bin/mocha",
+    "db_create": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:create",
+    "db_drop": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:drop",
+    "migrate": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up",
+    "install-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up:test"
+  },
+  "keywords": [
+    "contacts",
+    "api",
+    "bdd",
+    "db-migrate"
+  ],
+  "author": "Dawid Buchwald",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
+    "eslint": "^6.3.0",
+    "eslint-plugin-mocha": "^6.1.0",
+    "mocha": "^6.2.0"
+  },
+  "dependencies": {
+    "db-migrate": "^0.11.6",
+    "db-migrate-mysql": "^1.1.10",
+    "dotenv": "^8.1.0"
+  }
+}
