@@ -1,21 +1,35 @@
 const chai = require('chai');
+const sinon = require('sinon');
 const expect = chai.expect;
+const driver = require('../lib/common/db/driver');
 const { getDBConnectionStatus } = require('../lib/common/db/health');
 const { MYSQL_ERROR_CODES } = require('../lib/common/db/errors');
 
-describe('Login function', function() {
+describe('Health function', function() {
+
+  beforeEach('Create driver instance', function() {
+    this.sandbox = sinon.createSandbox();
+    this.sandbox.stub(driver, 'query');
+  });
+  afterEach('Restore stub', function() {
+    this.sandbox.restore();
+  });
 
   it('Should return true if connection works', function() {
-    return getDBConnectionStatus({ query: function(_query, _params, callback) {
-      callback(undefined, [{matches:1}]); }})
+
+    driver.query.yields(null, [{matches:1}]);
+
+    return getDBConnectionStatus(driver)
       .then (result => {
         expect(result).to.be.true;
       })
   })
 
   it('Should return error message if query fails', function() {
-    return getDBConnectionStatus({ query: function(_query, _params, callback) {
-      callback('Simulated failure'); }})
+
+    driver.query.yields('Simulated failure');
+
+    return getDBConnectionStatus(driver)
       .then (
         _result => {
           chai.assert.fail('Should not work!')
