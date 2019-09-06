@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "lint": "node_modules/.bin/eslint",
-    "test": "node_modules/.bin/mocha lib/test/suite.test.js",
+    "test": "node_modules/.bin/mocha test/*.test.js",
     "bdd-test": "node -r dotenv/config node_modules/cucumber/bin/cucumber-js",
     "db_create": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:create",
     "db_drop": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:drop",
