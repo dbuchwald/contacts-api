@@ -36,4 +36,4 @@ and populate variables with your own.
 
 Run database migrations `npm run migrate` to create database schema. Run `npm run install-test-data` to install test data to database.
 
-When done, run `npm run bdd-test` to verify that application is functioning properly.
+When done, start the application using `npm start` and run `npm run bdd-test` to verify that application is functioning properly.
