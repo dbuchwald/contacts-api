@@ -1,4 +1,5 @@
 const { Given } = require("cucumber");
+const { MYSQL_ERROR_CODES } = require('../../lib/common/db/errors');
 const { validateCustomerPassword } = require('../../lib/common/db/login');
 var chai = require('chai');
 var chaiHttp = require('chai-http');

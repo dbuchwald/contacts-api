@@ -5,14 +5,13 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "lint": "node_modules/.bin/eslint",
+    "lint": "node_modules/.bin/eslint lib/**/*.js test/*.test.js features/support/*.js",
     "test": "node_modules/.bin/mocha test/*.test.js",
     "bdd-test": "node -r dotenv/config node_modules/cucumber/bin/cucumber-js",
-    "db_create": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:create",
-    "db_drop": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate db:drop",
-    "migrate": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up",
+    "migrate-up": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up",
+    "migrate-down": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate reset",
     "install-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate up:test",
-    "remove-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate down:test",
+    "remove-test-data": "node -r dotenv/config node_modules/db-migrate/bin/db-migrate reset:test",
     "start": "node -r dotenv/config bin/www"
   },
   "keywords": [

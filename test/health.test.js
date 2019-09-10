@@ -31,7 +31,7 @@ describe('Health function', function() {
 
     return getDBConnectionStatus(driver)
       .then (
-        _result => {
+        () => {
           chai.assert.fail('Should not work!')
         },
         exception => {

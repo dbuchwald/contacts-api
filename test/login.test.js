@@ -41,7 +41,7 @@ describe('Login function', function() {
 
     return validateCustomerPassword(driver, 'user', 'correct password')
       .then (
-        _result => {
+        () => {
           chai.assert.fail('Should not work!')
         },
         exception => {
