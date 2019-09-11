@@ -8,12 +8,12 @@ const expect=chai.expect;
 
 const checkIfCustomerExists = function(driver, email) {
   return new Promise( function(resolve, reject) {
-    driver.query('SELECT COUNT(*) AS found FROM users WHERE email=?', [email], 
+    driver.query('SELECT id FROM users WHERE email=?', [email], 
       function (error, results) {
         if (error) {
           reject({code: MYSQL_ERROR_CODES.MYSQL_QUERY_FAILED, message: `Database query failed, error message: ${error}`});
         } else {
-          resolve(results[0].found === 1);
+          resolve((results.length>0) ? results[0].id : undefined);
         }
       }
     );
@@ -39,16 +39,25 @@ Given('Application is running', function () {
 Given('User {string} exists', function (email) {
   return checkIfCustomerExists(this.driver, email)
     .then( function(response) {
-      expect(response).to.be.true;
-    });
+      expect(response).to.not.be.undefined;
+      this.setUserId(response);
+    }.bind(this));
 });
 
 Given('User {string} has password {string}', function (email, password) {
   return validateCustomerPassword(this.driver, email, password)
     .then( function(response) {
-      expect(response).to.be.true;
-    });
+      expect(response).to.be.equal(this.userId);
+    }.bind(this));
 });
 
-
-
+Given('User {string} is logged in with password {string}', function (email, password) {
+  return chai.request(this.testURL).post('/api/v1/login')
+    .send({email:email, password:password})
+    .then( function(response) {
+      expect(response).to.have.status(200);
+      expect(response.body.success).to.be.true;
+      this.setUserId(response.body.userId);
+      this.setEstablishedSessionId(response.body.sessionId);
+    }.bind(this));
+});

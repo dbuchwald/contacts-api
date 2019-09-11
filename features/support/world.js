@@ -7,7 +7,9 @@ class CustomWorld {
   constructor() {
     this.testURL = undefined;
     this.queryResponse = undefined;
-    this.sessionId = undefined;
+    this.userId = undefined;
+    this.establishedSessionId = undefined;
+    this.requestSessionId = undefined;
     this.driver = driver;
   }
 
@@ -19,8 +21,16 @@ class CustomWorld {
     this.queryResponse = response;
   }
 
-  setSessionId(sessionId) {
-    this.sessionId = sessionId;
+  setUserId(userId) {
+    this.userId = userId;
+  }
+
+  setEstablishedSessionId(sessionId) {
+    this.establishedSessionId = sessionId;
+  }
+
+  setRequestSessionId(sessionId) {
+    this.requestSessionId = sessionId;
   }
 }
 

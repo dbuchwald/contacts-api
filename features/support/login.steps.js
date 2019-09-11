@@ -6,7 +6,7 @@ const expect=chai.expect;
 
 When('User {string} logs in with password {string}', function (email, password) {
   return chai.request(this.testURL).post('/api/v1/login')
-    .send({id:email, password:password})
+    .send({email:email, password:password})
     .then( function(response) {
       this.setQueryResponse(response);
     }.bind(this));

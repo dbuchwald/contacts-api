@@ -17,21 +17,21 @@ describe('Login function', function() {
 
   it('Should return true if correct user and password is passed', function() {
 
-    driver.query.yields(null, [{matches:1}]);
+    driver.query.yields(null, [{id:1001}]);
 
-    return validateCustomerPassword(driver, 'user', 'correct password')
+    return validateCustomerPassword(driver, 'alice@test.net', 'correct password')
       .then (result => {
-        expect(result).to.be.true;
+        expect(result).to.be.equal(1001);
       })
   })
 
   it('Should return false if incorrect user and password is passed', function() {
 
-    driver.query.yields(null, [{matches:0}]);
+    driver.query.yields(null, []);
 
-    return validateCustomerPassword(driver, 'user', 'incorrect password')
+    return validateCustomerPassword(driver, 'alice@test.net', 'incorrect password')
       .then (result => {
-        expect(result).to.be.false;
+        expect(result).to.be.undefined;
       })
   })
 
