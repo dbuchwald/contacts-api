@@ -13,7 +13,7 @@ Given('Invalid session id is used', function () {
 });
 
 When('User lists all her contacts', function () {
-  return chai.request(this.testURL).get('/api/v1/contacts/' + this.userId)
+  return chai.request(this.testURL).get('/api/v1/contacts')
     .set('sessionid', this.requestSessionId)
     .then( function(response) {
       this.setQueryResponse(response);
