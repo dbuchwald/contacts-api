@@ -10,7 +10,7 @@ const { REDIS_ERROR_CODES } = require('../lib/common/redis/errors');
 
 describe('Session management', function() {
 
-  beforeEach('Create driver instance', function() {
+  beforeEach('Create client instance', function() {
     this.sandbox = sinon.createSandbox();
     this.sandbox.stub(redisClient, 'get');
     this.sandbox.stub(redisClient, 'set');

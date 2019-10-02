@@ -1,15 +1,15 @@
 const chai = require('chai');
 const sinon = require('sinon');
-const driver = require('../lib/common/db/driver');
+const pool = require('mysql').createPool({});
 const expect = chai.expect;
 const { getContactsList, updateContact, deleteContact, validateContactOwnership } = require('../lib/common/db/contacts');
 const { MYSQL_ERROR_CODES } = require('../lib/common/db/errors');
 
 describe('Contacts Management', function() {
 
-  beforeEach('Create driver instance', function() {
+  beforeEach('Create pool instance', function() {
     this.sandbox = sinon.createSandbox();
-    this.sandbox.stub(driver, 'query');
+    this.sandbox.stub(pool, 'query');
   });
   afterEach('Restore stub', function() {
     this.sandbox.restore();
@@ -19,9 +19,9 @@ describe('Contacts Management', function() {
 
     it('Should return contact for valid customer id', function() {
 
-      driver.query.yields(null, [{id:101, owner_id: 1001, first_name:'Homer', last_name:'Simpson', organization:null}]);
+      pool.query.yields(null, [{id:101, owner_id: 1001, first_name:'Homer', last_name:'Simpson', organization:null}]);
 
-      return getContactsList(driver, 1001)
+      return getContactsList(pool, 1001)
         .then (result => {
           expect(result.length).to.be.equal(1);
           expect(result[0].id).to.be.equal(101);
@@ -34,9 +34,9 @@ describe('Contacts Management', function() {
 
     it('Should return empty list for invalid customer id', function() {
 
-      driver.query.yields(null, []);
+      pool.query.yields(null, []);
 
-      return getContactsList(driver, -1)
+      return getContactsList(pool, -1)
         .then (result => {
           expect(result.length).to.be.equal(0);
         })
@@ -44,9 +44,9 @@ describe('Contacts Management', function() {
 
     it('Should return error if query fails', function() {
 
-      driver.query.yields('Simulated failure');
+      pool.query.yields('Simulated failure');
 
-      return getContactsList(driver, 1001)
+      return getContactsList(pool, 1001)
         .then (
           () => {
             chai.assert.fail('Should not work!')
@@ -64,9 +64,9 @@ describe('Contacts Management', function() {
 
     it('Should work for valid customer id', function() {
 
-      driver.query.yields(null, [{}]);
+      pool.query.yields(null, [{}]);
 
-      return updateContact(driver, 1001, 'Homer', 'Simpson', null)
+      return updateContact(pool, 1001, 'Homer', 'Simpson', null)
         .then (result => {
           expect(result.length).to.be.equal(1);
         })
@@ -74,9 +74,9 @@ describe('Contacts Management', function() {
 
     it('Should return empty list for invalid customer id', function() {
 
-      driver.query.yields(null, [{}]);
+      pool.query.yields(null, [{}]);
 
-      return updateContact(driver, -1, 'Homer', 'Simpson', null)
+      return updateContact(pool, -1, 'Homer', 'Simpson', null)
         .then (result => {
           expect(result.length).to.be.equal(1);
         })
@@ -84,9 +84,9 @@ describe('Contacts Management', function() {
 
     it('Should return error if query fails', function() {
 
-      driver.query.yields('Simulated failure');
+      pool.query.yields('Simulated failure');
 
-      return updateContact(driver, 1001, 'Homer', 'Simpson', null)
+      return updateContact(pool, 1001, 'Homer', 'Simpson', null)
         .then (
           () => {
             chai.assert.fail('Should not work!')
@@ -104,9 +104,9 @@ describe('Contacts Management', function() {
 
     it('Should work for valid customer id', function() {
 
-      driver.query.yields(null, [{}]);
+      pool.query.yields(null, [{}]);
 
-      return deleteContact(driver, 1001)
+      return deleteContact(pool, 1001)
         .then (result => {
           expect(result.length).to.be.equal(1);
         })
@@ -114,9 +114,9 @@ describe('Contacts Management', function() {
 
     it('Should return empty list for invalid customer id', function() {
 
-      driver.query.yields(null, [{}]);
+      pool.query.yields(null, [{}]);
 
-      return deleteContact(driver, -1)
+      return deleteContact(pool, -1)
         .then (result => {
           expect(result.length).to.be.equal(1);
         })
@@ -124,9 +124,9 @@ describe('Contacts Management', function() {
 
     it('Should return error if query fails', function() {
 
-      driver.query.yields('Simulated failure');
+      pool.query.yields('Simulated failure');
 
-      return deleteContact(driver, 1001)
+      return deleteContact(pool, 1001)
         .then (
           () => {
             chai.assert.fail('Should not work!')
@@ -144,9 +144,9 @@ describe('Contacts Management', function() {
 
     it('Should return true for valid ownership', function() {
 
-      driver.query.yields(null, [{matches:1}]);
+      pool.query.yields(null, [{matches:1}]);
 
-      return validateContactOwnership(driver, 1001, 101)
+      return validateContactOwnership(pool, 1001, 101)
         .then (result => {
           expect(result).to.be.true;
         })
@@ -154,9 +154,9 @@ describe('Contacts Management', function() {
 
     it('Should return false for invalid ownership', function() {
 
-      driver.query.yields(null, [{matches:0}]);
+      pool.query.yields(null, [{matches:0}]);
 
-      return validateContactOwnership(driver, -1, 101)
+      return validateContactOwnership(pool, -1, 101)
         .then (result => {
           expect(result).to.be.false;
         })
@@ -164,9 +164,9 @@ describe('Contacts Management', function() {
 
     it('Should return error if query fails', function() {
 
-      driver.query.yields('Simulated failure');
+      pool.query.yields('Simulated failure');
 
-      return validateContactOwnership(driver, 1001, 101)
+      return validateContactOwnership(pool, 1001, 101)
         .then (
           () => {
             chai.assert.fail('Should not work!')

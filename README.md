@@ -4,7 +4,7 @@ Contacts Management API written with Node.js
 Currently application uses several techniques to verify, test and illustrate good practices.
 
 Unit testing: Mocha/chai/Sinon. Mocha for unit test running, chai for assertions, Sinon for 
-stubs (i.e. database driver is stubbed for unit testing).
+stubs (i.e. database pool is stubbed for unit testing).
 
 BDD testing: Cucumber for feature description (Gherkin style), with chai and chai-http assertions to execute actual calls via API.
 

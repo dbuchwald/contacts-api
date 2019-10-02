@@ -1,7 +1,16 @@
 const { setWorldConstructor } = require("cucumber");
-var driver = require('../../lib/common/db/driver');
 const { AfterAll } = require("cucumber");
 
+var mysql = require("mysql");
+
+var pool = mysql.createPool({
+  connectionLimit: 10,
+  host: process.env.CONTACTS_API_DB_HOST,
+  port: process.env.CONTACTS_API_DB_PORT,
+  user: process.env.CONTACTS_API_DB_USER,
+  password: process.env.CONTACTS_API_DB_PASSWORD,
+  database: process.env.CONTACTS_API_DB_DATABASE
+});
 
 class CustomWorld {
   constructor() {
@@ -10,7 +19,7 @@ class CustomWorld {
     this.userId = undefined;
     this.establishedSessionId = undefined;
     this.requestSessionId = undefined;
-    this.driver = driver;
+    this.pool = pool;
   }
 
   setTestURL(url) {
@@ -37,5 +46,5 @@ class CustomWorld {
 setWorldConstructor(CustomWorld);
 
 AfterAll(function() {
-  driver.closePool();
+  pool.end();
 })

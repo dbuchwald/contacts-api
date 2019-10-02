@@ -1,15 +1,15 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const expect = chai.expect;
-const driver = require('../lib/common/db/driver');
+const pool = require('mysql').createPool({});
 const { getDBConnectionStatus } = require('../lib/common/db/health');
 const { MYSQL_ERROR_CODES } = require('../lib/common/db/errors');
 
 describe('Health function', function() {
 
-  beforeEach('Create driver instance', function() {
+  beforeEach('Create pool instance', function() {
     this.sandbox = sinon.createSandbox();
-    this.sandbox.stub(driver, 'query');
+    this.sandbox.stub(pool, 'query');
   });
   afterEach('Restore stub', function() {
     this.sandbox.restore();
@@ -17,9 +17,9 @@ describe('Health function', function() {
 
   it('Should return true if connection works', function() {
 
-    driver.query.yields(null, [{matches:1}]);
+    pool.query.yields(null, [{matches:1}]);
 
-    return getDBConnectionStatus(driver)
+    return getDBConnectionStatus(pool)
       .then (result => {
         expect(result).to.be.true;
       })
@@ -27,9 +27,9 @@ describe('Health function', function() {
 
   it('Should return error message if query fails', function() {
 
-    driver.query.yields('Simulated failure');
+    pool.query.yields('Simulated failure');
 
-    return getDBConnectionStatus(driver)
+    return getDBConnectionStatus(pool)
       .then (
         () => {
           chai.assert.fail('Should not work!')

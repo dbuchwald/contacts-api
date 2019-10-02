@@ -6,9 +6,9 @@ var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect=chai.expect;
 
-const checkIfCustomerExists = function(driver, email) {
+const checkIfCustomerExists = function(pool, email) {
   return new Promise( function(resolve, reject) {
-    driver.query('SELECT id FROM users WHERE email=?', [email], 
+    pool.query('SELECT id FROM users WHERE email=?', [email], 
       function (error, results) {
         if (error) {
           reject({code: MYSQL_ERROR_CODES.MYSQL_QUERY_FAILED, message: `Database query failed, error message: ${error}`});
@@ -37,7 +37,7 @@ Given('Application is running', function () {
 });
 
 Given('User {string} exists', function (email) {
-  return checkIfCustomerExists(this.driver, email)
+  return checkIfCustomerExists(this.pool, email)
     .then( function(response) {
       expect(response).to.not.be.undefined;
       this.setUserId(response);
@@ -45,7 +45,7 @@ Given('User {string} exists', function (email) {
 });
 
 Given('User {string} has password {string}', function (email, password) {
-  return validateCustomerPassword(this.driver, email, password)
+  return validateCustomerPassword(this.pool, email, password)
     .then( function(response) {
       expect(response).to.be.equal(this.userId);
     }.bind(this));
